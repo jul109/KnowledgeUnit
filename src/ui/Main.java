@@ -12,7 +12,12 @@ public class Main{
 
 	public static void main(String args[]){
 		Main view=new Main();
-
+		int x;
+		while(true){
+			System.out.println("Type 1 to add a project");
+			x=reader.nextInt();
+			System.out.println(view.controller.addProject());
+		}
 
 
 	}
