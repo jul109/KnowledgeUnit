@@ -26,6 +26,13 @@ public class Controller{
 		}
 		return msg;
 	}
+
+	public String initStages(String projectName,int months[]){
+		Project project= searchProjectByName(projectName);
+		project.initStages(months);
+		project.test();
+		return "The stages has been inicialized";
+	}
 	
 	
 	private int getfirstValidPos(){

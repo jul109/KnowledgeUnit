@@ -13,6 +13,7 @@ public class Project{
 	private int numCapsulesAdded;
 	private int[] numCapsulesPerType;
 	private Manager[] managers;
+	private Stage stages[];
 	public Project( String name, String clientName, double budget, String[] nameManagers, String[] phoneManagers, GregorianCalendar initialDatePlanned, GregorianCalendar finalDatePlanned){
 		this.name=name;
 		this.clientName=clientName;
@@ -23,7 +24,30 @@ public class Project{
 		}
 		this.initialPlannedDate=initialDatePlanned;
 		this.finalPlannedDate=finalDatePlanned;
+		this.done=false;
+		this.stages=new Stage[StageType.values().length];
 
+	}
+	public void initStages(int[] months ){
+		GregorianCalendar initialPlannedDateOfTheFirstStage=initialPlannedDate; //The initial planned date  of the first stage
+		//is the same as the initial planned date of the project.
+		
+
+		// Then, in order to assign the final planned date, we create a clone and add the months to this clone. 
+		/// The operation "=" doesn't work, we are using objects and we don't want to lose information.
+		// StageType.values() is an array that contains the objects of my enum "StageType". The first stage of the project has the first stage Type. The second stage of the project has
+		//the second stage type, and so on.
+		stages[0]=new Stage(StageType.values()[0],initialPlannedDateOfTheFirstStage,createCopyAndAddMonths(initialPlannedDateOfTheFirstStage,months[0]));
+		
+		
+
+		for(int i=1;i<StageType.values().length;i++){
+			//For the other stages:
+			//we loop through the array of the StageType values. And take the StageType at the position i.
+			//The initial date of the stage i, is the same as the final date of the stage i-1
+			//The final date of the stage i, is the same as the initial date plus the months that the user typed.
+			stages[i]=new Stage(StageType.values()[i],stages[i-1].getFinalPlannedDate(),createCopyAndAddMonths(stages[i-1].getFinalPlannedDate(),months[i]));
+		}
 	}
 
 
@@ -52,6 +76,18 @@ public class Project{
 
 	public String getFinalPlannedDateFormated(){
 		return Controller.calendarToString(finalPlannedDate);
+	}
+	public GregorianCalendar createCopyAndAddMonths(GregorianCalendar date,int months){
+		GregorianCalendar copy= (GregorianCalendar) date.clone(); //we create a clone of date that was taken as parameter
+		copy.add(copy.MONTH,months); //we add the months
+		return copy; //and we return a reference to this new object
+	}
+	public void test(){
+		for(int i=0;i<stages.length;i++){
+			System.out.println(stages[i].getStageType());
+			System.out.println(Controller.calendarToString(stages[i].getInitialPlannedDate()));
+			System.out.println(Controller.calendarToString(stages[i].getFinalPlannedDate()));
+		}
 	}
 
 

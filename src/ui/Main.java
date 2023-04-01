@@ -16,7 +16,6 @@ public class Main{
 		exe.menu();
 		
 
-
 	}
 	public void menu(){
 		int option=-1;
@@ -35,7 +34,6 @@ public class Main{
 					System.out.println("Invalid option");
 			}
 		}
-		controller.test();
 	}
 
 
@@ -96,11 +94,14 @@ public class Main{
 		
 		String msg= controller.addProject(name, clientName, budget,nameManagers,phoneManagers,initialDate,finalDate);
 		System.out.println(msg);
+		if( msg.equals("The project was added succesfully") ){
+			manageStages(name);
+		}
 
 
 	}
 
-	public void manageStages(){
+	public void manageStages(String name){
 		System.out.println("||||||||||||||||||");
 		int []durationStages=new int[controller.possibleStageTypesInStr().length];
 		
@@ -108,6 +109,8 @@ public class Main{
 			System.out.println("Type the duration in months of the stage "+controller.possibleStageTypesInStr()[i] );
 			durationStages[i]=validatePositiveInt();
 		}
+		controller.initStages(name,durationStages);
+
 		
 		
 	}
