@@ -7,18 +7,26 @@ public class Controller{
 	public static final int MAX_TOTAL_CAPSULES=3000;
 	private Project projects [];
 	private Capsule capsules [];
+	/**
+	 * Take a gregorian calendar and return an string of the date.
+ 	* 
+ 	* @param  gregoriancalendar instance of the class gregorianCalendar
+	* @return An string of the calendar
+ 	*/
 
 	public static String calendarToString(GregorianCalendar calendar) {
     	SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
     	String dateInTxtx = format.format(calendar.getTime());
     	return dateInTxtx;
 	}
-	
+	/**
+	 * Initialized the array of projects, and the array of capsules 
+ 	*/
 	public Controller(){
 		projects=new Project[MAX_PROJECTS];
 		capsules=new Capsule[MAX_TOTAL_CAPSULES];
-		System.out.println("Hola desde el constructor del controller");
 	}
+
 	
 	public String addProject(String name, String clientName, double budget, String[] nameManagers, String[] phoneManagers,GregorianCalendar initialDatePlanned, GregorianCalendar finalDatePlanned){
 		String msg = "The project was not added. The maximum number of projects is "+ MAX_PROJECTS;
@@ -33,7 +41,6 @@ public class Controller{
 	public String initStages(String projectName,int months[]){
 		Project project= searchProjectByName(projectName);
 		project.initStages(months);
-		project.test();
 		return "The stages has been inicialized";
 	}
 	
@@ -60,6 +67,11 @@ public class Controller{
 		}
 		return isValid;
 	}
+	/**
+	 * Take the name, And returns a project with this name. If there is no any project, return null.
+	 *@param projectName an string with the name of the project
+	 *@return a project with the name that was given as a parameter
+ 	*/
 
 	public Project searchProjectByName(String name){
 		Project projectToSearch=null;
@@ -78,10 +90,20 @@ public class Controller{
 		}
 		return projectToSearch;
 	}
+	/**
+	 * Returns an array of string that contains all of the possibles stagesTypes
+	 * @return an array of strings 
+ 	*/
 
 	public String[] possibleStageTypesInStr(){
 		return StageType.optionsInStr();
 	}
+	/**
+	 *Take the name of a project and culminate its current stage
+	 *@param projectName the name of the project
+	 *@return It says if there is no project with this name, if all of the project stages were finished, and if it was possible to finish the current stage
+
+	*/
 	public String culminateCurrentStage(String projectName){
 		String msg="";
 		Project project=searchProjectByName(projectName);
@@ -99,6 +121,10 @@ public class Controller{
 		}
 		return msg;
 	}
+	/**
+	 * Take an id an returns a capsule whit this id
+	 * @return If there is no any capsule, returns null 
+ 	*/
 
 	public Capsule searchCapsuleById(String id){
 		boolean isFinished=false;
@@ -113,6 +139,10 @@ public class Controller{
 		}
 		return capsule;
 	}
+	/**
+	 * Validate if it is possible to choose the string as an ID of a project
+
+ 	*/
 	public boolean validateIdCapsule(String id){
 		boolean isValid=true;
 		if(searchCapsuleById(id)!=null){
@@ -163,12 +193,36 @@ public class Controller{
 		return str;
 		
 	}
-	public void test(){
-		for(int i=0;i<capsules.length;i++){
-			if(capsules[i]!=null){
-				System.out.println(capsules[i].getInfo());
+	public String approveCapsule(String id){
+		String msg="";
+		Capsule capsule=searchCapsuleById(id);
+		if(capsule==null){
+			msg="There is no any capsule with this name";
+		}else{
+			if(capsule.getApproved()){
+				msg="This capsule was approved before";
+			}else{
+				msg="The capsule was approved succesfully";
+				capsule.setApproved(true);
 			}
 		}
+		return msg;
+	}
+	public String publishCapsule(String id, String url){
+		String msg="";
+		Capsule capsule=searchCapsuleById(id);
+		if(capsule==null){
+			msg="There is no any capsule with this name";
+		}
+		if(capsule!=null && !capsule.getApproved()){
+			msg="This capsule has not been approved yet";
+		}
+		if(capsule!=null && capsule.getApproved()){
+			capsule.setPublished(true);
+			capsule.setUrl(url);
+			msg="Capsuled published";
+		}
+		return msg;
 	}
 
 

@@ -25,6 +25,18 @@ public class Capsule{
     return "Collaborator: " + collaborator.getName() + ", Description: " + description +
            ", Learning Experiences: " + learningExperiences + ", ID: " + id + ", Type: " + type.name();
 	}
+	public void setPublished(boolean published){
+		this.published=published;
+	}
+	public void setApproved(boolean approved){
+		this.approved=approved;
+	}
+	public void setUrl(String url){
+		this.url=url;
+	}
+	public boolean getApproved(){
+		return this.approved;
+	}
 
 
 

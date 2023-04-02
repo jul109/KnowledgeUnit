@@ -12,7 +12,6 @@ public enum CapsuleType{
 			CapsuleType aux=options[i];
 			if(aux.name().equalsIgnoreCase(option)){
 				isValid=true;
-				System.out.println(option);
 			}
 		}
 		return isValid;

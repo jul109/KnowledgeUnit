@@ -17,6 +17,10 @@ public class Main{
 		
 
 	}
+	/**
+    * Execute a menu with the options
+    * 
+    */
 	public void menu(){
 		int option=-1;
 		boolean execute=true;
@@ -24,6 +28,9 @@ public class Main{
 			System.out.println("Type 1 to add a project");
 			System.out.println("Type 2 to culminate the current stage of a project");
 			System.out.println("Type 3 to register a capsule");
+			System.out.println("Type 4 to approve a capsule");
+			System.out.println("Type 5 to publish a capsule");
+			System.out.println("Type 6 to exit the program");
 			option=validateIntegerInput();
 			switch (option) {
 				case 1:
@@ -36,6 +43,12 @@ public class Main{
 					registerCapsule();
 					break;
 				case 4:
+					approveCapsule();
+					break;
+				case 5:
+					publishCapsule();
+					break;
+				case 6:
 					execute=false;
 					break;
 				default:
@@ -45,9 +58,10 @@ public class Main{
 	}
 
 	
-
-	
-
+	/**
+    * Read an validate informations, and prints a message that says if it was possible to add this new project
+    * 
+    */
 
 	public void addProject(){
 		String name = "";
@@ -108,9 +122,11 @@ public class Main{
 
 
 	}
-
+	/**
+    * Request an array of positive values, and initializes the dates of the project with the name that was given
+    * @param name The name of the project
+    */
 	public void manageStages(String name){
-		System.out.println("||||||||||||||||||");
 		int []durationStages=new int[controller.possibleStageTypesInStr().length];
 		
 		for(int i=0;i<durationStages.length;i++){
@@ -118,10 +134,15 @@ public class Main{
 			durationStages[i]=validatePositiveInt();
 		}
 		controller.initStages(name,durationStages);
+		System.out.println("The stages were initialized succesfully");
 
 		
 		
 	}
+	/**
+    * Read the name of a project, and prints a message that says if it was possible to culminate the currentStage
+    * 
+    */
 
 	public void culminateCurrentStage(){
 		String projectName, msg="";
@@ -132,6 +153,10 @@ public class Main{
 		msg=controller.culminateCurrentStage(projectName);
 		System.out.println(msg);
 	}
+	/**
+    * Read names,descriptions, ids, etc and prints a message that says if it was possible to add the capsule
+    * 
+    */
 
 	public void registerCapsule(){
 		String collabName="",capsuleType="",collabCharge="",description="";
@@ -173,23 +198,52 @@ public class Main{
 		System.out.println("Type the name of the project");
 		String projectName="";
 		projectName=reader.next();
-/*
-		System.out.println("collabName: " + collabName);
-		System.out.println("collabCharge: " + collabCharge);
-		System.out.println("capsuleType: " + capsuleType);
-		System.out.println("description: " + description);
-		System.out.println("learningExperience: " + learningExperience);
-		System.out.println("id: " + id);
-*/		
-
+		
 		String msg=controller.addCapsule(projectName,collabName,collabCharge,description,learningExperience,id,capsuleType);
 		System.out.println(msg);
-		controller.test();
-
 
 	}
+	/**
+    * Read the url of the capsule, and prints a message that says if it was possible to approved it.
+    * 
+    */
+
+	public void approveCapsule(){
+		
+		String id="";
+		String msg="";
+		System.out.println("Type the id of the capsule");
+		id=validateStringInput();
+		
+		msg=controller.approveCapsule(id);
+		System.out.println(msg);
+
+	}
+	/**
+    * Read an id and an URL, and prints a message that says if it was possible to publish the capsule
+    * 
+    */
+
+	public void publishCapsule(){
+		String id="",url="";
+		String msg="";
+		System.out.println("Type the id of the capsule");
+		id=validateStringInput();
+		System.out.println("Type the url");
+		url=validateStringInput();
+		msg=controller.publishCapsule(id,url);
+		System.out.println(msg);
+	}
+
 
 	/*||||||||||||||||||||||||||||||||||||||VALIDATION FUNCTIONS||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||**/
+
+	/**
+    * Read the input of the user. If the user typed a non integer value, returns -1.
+    * 
+    * @return The value that was registered by the user, or -1 if the user didn't type an integer.
+    */
+
 
 	public int validateIntegerInput(){
 		int num = -1;
@@ -200,6 +254,11 @@ public class Main{
 		}
 		return num;
 	}
+	/**
+    * Put the user in a loop until he types a positive integer
+    * 
+    * @return An positive double
+    */
 	public int validatePositiveInt(){
 		int value=-1;
 		while(value<=0){
@@ -210,6 +269,12 @@ public class Main{
 		}
 		return value;
 	}
+	
+	/**
+    * Read the input of the user. If the user typed a non double value, returns -1.
+    * 
+    * @return The value that was registered by the user, or -1 if the user didn't type a double.
+    */
 
 	public double validateDoubleInput(){
 		double num=-1.0;
@@ -221,6 +286,12 @@ public class Main{
 		return num;
 
 	}
+
+	/**
+    * Put the user in a loop until he types a positive double
+    * 
+    * @return An positive double
+    */
 	public double validatePositiveDouble(){
 		double value=-1.0;
 		while(value<=0){
@@ -231,6 +302,15 @@ public class Main{
 		}
 		return value;
 	}
+
+	
+
+
+	/**
+    * Put the user in a loop until he types a non empty string.
+    * 
+    * @return An non empty string
+    */
 
 	public String validateStringInput(){
 		boolean isValid=false;
@@ -249,6 +329,14 @@ public class Main{
 		return str;
 
 	}
+
+
+
+
+	/**
+	* Put the user in a loop until he types a valid date.
+	* @return Return a valid GregorianCalendar date.
+	*/
 	public GregorianCalendar requestDate(){
 		int day=-1,month=-1,year=-1;
 

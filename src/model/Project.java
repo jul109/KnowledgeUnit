@@ -93,13 +93,7 @@ public class Project{
 
 	}
 
-	public void test(){
-		for(int i=0;i<stages.length;i++){
-			System.out.println(stages[i].getStageType());
-			System.out.println(Controller.calendarToString(stages[i].getInitialPlannedDate()));
-			System.out.println(Controller.calendarToString(stages[i].getFinalPlannedDate()));
-		}
-	}
+
 
 	public boolean culminateCurrentStage(){
 		int pos=positionOfCurrentStage();
