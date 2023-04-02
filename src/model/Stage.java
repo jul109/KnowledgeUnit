@@ -30,5 +30,23 @@ public class Stage{
 	public String getStageType(){
 		return stageType.name();
 	}
+	public void setActive(boolean active){
+		this.active=active;
+	}
+	public boolean getActive(){
+		return this.active;
+	}
+	public void setInitialRealDate(GregorianCalendar newDate){
+		this.initialRealDate=newDate;
+	}
+	public void setFinalRealDate(GregorianCalendar newDate){
+		this.finalRealDate=newDate;
+	}
+	public GregorianCalendar getFinalRealDate(){
+		return this.finalRealDate;
+	}
+	public GregorianCalendar getInitialRealDate(){
+		return this.initialRealDate;
+	}
 
 }

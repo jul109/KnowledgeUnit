@@ -9,7 +9,6 @@ public class Project{
 	private GregorianCalendar initialPlannedDate;
 	private GregorianCalendar finalPlannedDate;
 	private double budget;
-	private boolean done;
 	private int numCapsulesAdded;
 	private int[] numCapsulesPerType;
 	private Manager[] managers;
@@ -24,7 +23,6 @@ public class Project{
 		}
 		this.initialPlannedDate=initialDatePlanned;
 		this.finalPlannedDate=finalDatePlanned;
-		this.done=false;
 		this.stages=new Stage[StageType.values().length];
 
 	}
@@ -38,7 +36,7 @@ public class Project{
 		// StageType.values() is an array that contains the objects of my enum "StageType". The first stage of the project has the first stage Type. The second stage of the project has
 		//the second stage type, and so on.
 		stages[0]=new Stage(StageType.values()[0],initialPlannedDateOfTheFirstStage,createCopyAndAddMonths(initialPlannedDateOfTheFirstStage,months[0]));
-		
+		stages[0].setActive(true); //the first stage changes to active
 		
 
 		for(int i=1;i<StageType.values().length;i++){
@@ -82,12 +80,47 @@ public class Project{
 		copy.add(copy.MONTH,months); //we add the months
 		return copy; //and we return a reference to this new object
 	}
+	public int positionOfCurrentStage(){
+		int pos=-1;
+		boolean isFound=false;
+		for(int i=0;i<stages.length&& !isFound;i++){
+			if(stages[i].getActive()==true){
+				pos=i;
+				isFound=true;
+			}
+		}
+		return pos;
+
+	}
+
 	public void test(){
 		for(int i=0;i<stages.length;i++){
 			System.out.println(stages[i].getStageType());
 			System.out.println(Controller.calendarToString(stages[i].getInitialPlannedDate()));
 			System.out.println(Controller.calendarToString(stages[i].getFinalPlannedDate()));
 		}
+	}
+
+	public boolean culminateCurrentStage(){
+		int pos=positionOfCurrentStage();
+		boolean culminated=false;
+		if(pos==-1){
+			culminated=false;
+		}
+		if(pos==stages.length-1){
+			stages[pos].setActive(false);
+			stages[pos].setFinalRealDate(new GregorianCalendar());
+			culminated=true;
+
+		}
+		if(0<=pos && pos<stages.length-1){
+			stages[pos].setActive(false);
+			stages[pos+1].setActive(true);
+			stages[pos].setFinalRealDate(new GregorianCalendar());
+			stages[pos+1].setInitialRealDate(stages[pos].getFinalRealDate());
+			culminated=true;
+		}
+		return culminated;
 	}
 
 

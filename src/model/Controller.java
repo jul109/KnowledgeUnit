@@ -86,6 +86,23 @@ public class Controller{
 			}
 		}
 	}
+	public String culminateCurrentStage(String projectName){
+		String msg="";
+		Project project=searchProjectByName(projectName);
+		if(project==null){
+			msg="There is no project with this name";
+		}
+		if(project!=null){
+			boolean culminated=project.culminateCurrentStage();
+			if(culminated==true){
+				msg="The stage has been culminated" ;
+
+			}else{
+				msg="All of the stages of this project has been completed";
+			}
+		}
+		return msg;
+	}
 
 
 

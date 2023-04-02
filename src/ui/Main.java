@@ -22,12 +22,16 @@ public class Main{
 		boolean execute=true;
 		while(execute){
 			System.out.println("Type 1 to add a project");
+			System.out.println("Type 2 to culminate the current stage of a project");
 			option=validateIntegerInput();
 			switch (option) {
 				case 1:
 					addProject();
 					break;
 				case 2:
+					culminateCurrentStage();
+					break;
+				case 3:
 					execute=false;
 					break;
 				default:
@@ -36,7 +40,7 @@ public class Main{
 		}
 	}
 
-
+	
 
 	
 
@@ -113,6 +117,27 @@ public class Main{
 
 		
 		
+	}
+
+	public void culminateCurrentStage(){
+		String projectName, msg="";
+		
+		System.out.println("Type the name of the project");
+		projectName=validateStringInput();
+		
+		msg=controller.culminateCurrentStage(projectName);
+		System.out.println(msg);
+	}
+
+	public void registerCapsule(){
+		String collabName="",capsuleType="";
+		String[] possibleTypes={"A","B","C"};
+		
+		System.out.println("Type the name of the collaborator");
+		collabName=validateStringInput();
+		System.out.println("Type the type of the capsule");
+		capsuleType=validateStringInput();
+
 	}
 
 	/*||||||||||||||||||||||||||||||||||||||VALIDATION FUNCTIONS||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||**/
