@@ -122,6 +122,16 @@ public class Project{
 		}
 		return culminated;
 	}
+	public boolean addCapsuleToCurrentStage(Capsule capsule){
+		int pos=positionOfCurrentStage();
+		boolean isAdded=false;
+		if(pos!=-1){
+			if(stages[pos].addCapsule(capsule)){
+				isAdded=true;
+			}
+		}
+		return isAdded;
+	}
 
 
 	

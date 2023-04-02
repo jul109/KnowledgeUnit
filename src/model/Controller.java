@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 
 public class Controller{
 	public static final int MAX_PROJECTS=2;
+	public static final int MAX_TOTAL_CAPSULES=3000;
 	private Project projects [];
+	private Capsule capsules [];
 
 	public static String calendarToString(GregorianCalendar calendar) {
     	SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -14,6 +16,7 @@ public class Controller{
 	
 	public Controller(){
 		projects=new Project[MAX_PROJECTS];
+		capsules=new Capsule[MAX_TOTAL_CAPSULES];
 		System.out.println("Hola desde el constructor del controller");
 	}
 	
@@ -79,13 +82,6 @@ public class Controller{
 	public String[] possibleStageTypesInStr(){
 		return StageType.optionsInStr();
 	}
-	public void test(){
-		for(int i=0;i<projects.length;i++){
-			if(projects[i]!=null){
-				System.out.println(projects[i].getProjectInfo());
-			}
-		}
-	}
 	public String culminateCurrentStage(String projectName){
 		String msg="";
 		Project project=searchProjectByName(projectName);
@@ -103,6 +99,80 @@ public class Controller{
 		}
 		return msg;
 	}
+
+	public Capsule searchCapsuleById(String id){
+		boolean isFinished=false;
+		Capsule capsule=null;
+		for(int i=0;i<MAX_TOTAL_CAPSULES&&!isFinished;i++){
+			if(capsules[i]==null){
+				isFinished=true;
+			}
+			if( capsules[i]!=null && capsules[i].getId().equals(id) ){
+				capsule=capsules[i];
+			}
+		}
+		return capsule;
+	}
+	public boolean validateIdCapsule(String id){
+		boolean isValid=true;
+		if(searchCapsuleById(id)!=null){
+			isValid=false;
+		}
+		return isValid;
+	}
+
+	public String[] possibleCapsuleTypeInStr(){
+		return CapsuleType.optionsInStr();
+	}
+
+	public boolean validateCapsuleType(String capsuleType){
+		boolean isValid=false;
+		if(CapsuleType.contains(capsuleType)){
+			isValid=true;
+		}
+		return isValid;
+	}
+	public int firstValidPosInCapsules(){
+		int pos=-1;
+		boolean isFinished=false;
+		for(int i=0;i<MAX_TOTAL_CAPSULES&&!isFinished;i++){
+			if(capsules[i]==null){
+				pos=i;
+				isFinished=true;
+			}
+		}
+		return pos;
+	}
+
+	public String addCapsule(String projectName,String nameCollab, String chargeCollab, String description, String learningExperiences, String id, String type){
+		String str="";
+		Project project=searchProjectByName(projectName);
+		if(project==null){
+			str="There is no project with this name";
+		}else{
+			Collaborator collaborator= new Collaborator(nameCollab,chargeCollab);
+			Capsule capsule=new Capsule(collaborator,description,learningExperiences,id, CapsuleType.valueOf(type.toUpperCase() ) );
+			
+			if(project.addCapsuleToCurrentStage(capsule)){
+				str="The capsule was added";
+				capsules[firstValidPosInCapsules()]=capsule;
+			}else{
+				str="The maximum number of capsules in the stage is "+Stage.MAX_CAPSULES+"the capsule was not added";
+			}
+		}
+		return str;
+		
+	}
+	public void test(){
+		for(int i=0;i<capsules.length;i++){
+			if(capsules[i]!=null){
+				System.out.println(capsules[i].getInfo());
+			}
+		}
+	}
+
+
+
 
 
 

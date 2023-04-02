@@ -2,6 +2,7 @@ package model;
 import java.util.GregorianCalendar;
 import java.text.SimpleDateFormat;
 public class Stage{
+	public static int MAX_CAPSULES=50;
 	private StageType stageType;
 	private boolean active;
 	private boolean approved;
@@ -11,6 +12,7 @@ public class Stage{
 	private GregorianCalendar finalPlannedDate;
 	private GregorianCalendar initialRealDate;
 	private GregorianCalendar finalRealDate;
+	private Capsule[] capsules;
 	
 	public GregorianCalendar getInitialPlannedDate(){
 		return initialPlannedDate;
@@ -26,6 +28,7 @@ public class Stage{
 		approved=false;
 		numCapsulesAdded=0;
 		numCapsulesPerType=new int[StageType.values().length];
+		capsules=new Capsule[MAX_CAPSULES];
 	}
 	public String getStageType(){
 		return stageType.name();
@@ -47,6 +50,26 @@ public class Stage{
 	}
 	public GregorianCalendar getInitialRealDate(){
 		return this.initialRealDate;
+	}
+	public int getFirstValidPosInCapsules(){
+		int pos=-1;
+		boolean isEnded=false;
+		for(int i=0;i<capsules.length&&!isEnded;i++){
+			if(capsules[i]==null){
+				pos=i;
+				isEnded=true;
+			}
+		}
+		return pos;
+	}
+	public boolean addCapsule(Capsule capsule){
+		int pos=getFirstValidPosInCapsules();
+		boolean isAdded=false;
+		if(pos!=-1){
+			capsules[pos]=capsule;
+			isAdded=true;
+		}
+		return isAdded;
 	}
 
 }

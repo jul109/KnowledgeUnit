@@ -23,6 +23,7 @@ public class Main{
 		while(execute){
 			System.out.println("Type 1 to add a project");
 			System.out.println("Type 2 to culminate the current stage of a project");
+			System.out.println("Type 3 to register a capsule");
 			option=validateIntegerInput();
 			switch (option) {
 				case 1:
@@ -32,6 +33,9 @@ public class Main{
 					culminateCurrentStage();
 					break;
 				case 3:
+					registerCapsule();
+					break;
+				case 4:
 					execute=false;
 					break;
 				default:
@@ -130,13 +134,58 @@ public class Main{
 	}
 
 	public void registerCapsule(){
-		String collabName="",capsuleType="";
-		String[] possibleTypes={"A","B","C"};
+		String collabName="",capsuleType="",collabCharge="",description="";
+		String learningExperience="",id="";
+		String[] possibleTypes=controller.possibleCapsuleTypeInStr();
 		
 		System.out.println("Type the name of the collaborator");
 		collabName=validateStringInput();
-		System.out.println("Type the type of the capsule");
-		capsuleType=validateStringInput();
+		System.out.println("Type the charge of the collaborator");
+		collabCharge=validateStringInput();
+		
+		do{
+			System.out.println("Type the type of the capsule.These are the types");
+			for(int i=0;i<possibleTypes.length;i++){
+				System.out.print(possibleTypes[i]+" ");
+			}
+			System.out.println();
+			capsuleType=validateStringInput();
+			if(!controller.validateCapsuleType(capsuleType)){
+				System.out.println("Invalid value");
+			}
+		
+		}while( !controller.validateCapsuleType(capsuleType) );
+		reader.nextLine();
+		System.out.println("Type description of the capsule");
+		description=validateStringInput();
+		reader.nextLine();
+
+		System.out.println("Type the learningExperience");
+		learningExperience=reader.nextLine();
+
+		System.out.println("Type the id");
+		do{
+			id=validateStringInput();
+			if(!controller.validateIdCapsule(id)){
+				System.out.println("This id was chosen before. Type other");
+			}
+		}while(!controller.validateIdCapsule(id));
+		System.out.println("Type the name of the project");
+		String projectName="";
+		projectName=reader.next();
+/*
+		System.out.println("collabName: " + collabName);
+		System.out.println("collabCharge: " + collabCharge);
+		System.out.println("capsuleType: " + capsuleType);
+		System.out.println("description: " + description);
+		System.out.println("learningExperience: " + learningExperience);
+		System.out.println("id: " + id);
+*/		
+
+		String msg=controller.addCapsule(projectName,collabName,collabCharge,description,learningExperience,id,capsuleType);
+		System.out.println(msg);
+		controller.test();
+
 
 	}
 
