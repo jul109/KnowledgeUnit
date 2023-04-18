@@ -25,12 +25,19 @@ public class Main{
 		int option=-1;
 		boolean execute=true;
 		while(execute){
+			System.out.println("||||||WELCOME|||||||||");
 			System.out.println("1 to add a project");
 			System.out.println("2 to culminate the current stage of a project");
 			System.out.println("3 to register a capsule");
 			System.out.println("4 to approve a capsule");
 			System.out.println("5 to publish a capsule");
-			System.out.println("6 to exit the program");
+			System.out.println("6 to count the number of capsules for any type.");
+			System.out.println("7 to view the learning experiences of the capsules in a project stage");
+			System.out.println("8 to know which are the projects that contain the greater number of capsules registered");
+			System.out.println("9 to verify by his name if a collaborator has registered a capsule");
+			System.out.println("10 to search for the capsules that have been published and approved. It is necessary to type some key words ");
+			System.out.println("11 to exit the program");
+			System.out.println("|||||||||||||||||||||||");
 			option=validateIntegerInput();
 			switch (option) {
 				case 1:
@@ -49,6 +56,21 @@ public class Main{
 					publishCapsule();
 					break;
 				case 6:
+					countCapsulesByType();
+					break;
+				case 7:
+					viewLearningExperiencesInAProjectStage();
+					break;
+				case 8:
+					ShowProjectsWithTheGreaterNumOfCapsules();
+					break;
+				case 9:
+					showCapsulesOfACollabByHisName();
+					break;
+				case 10:
+					searchCapsulesByString();
+					break;
+				case 11:
 					execute=false;
 					break;
 				default:
@@ -237,6 +259,37 @@ public class Main{
 		System.out.println(msg);
 	}
 
+	public void countCapsulesByType(){
+		String msg=controller.countCapsulesByType();
+		System.out.println(msg);
+	}
+	public void viewLearningExperiencesInAProjectStage(){
+		String projectName,stageName,msg="";
+		System.out.println("Type the name of the project");
+		projectName=reader.next();
+		System.out.println("Type the name of the stage");
+		stageName=reader.next();
+		msg=controller.getStageCapsulesInfo(projectName,stageName);
+		System.out.println(msg);
+
+	}
+	public void ShowProjectsWithTheGreaterNumOfCapsules(){
+		String msg=controller.projectsWithTheGreaterNumberOfCapsules();
+		System.out.println(msg);
+	}
+	public void showCapsulesOfACollabByHisName(){
+		String collabName="";
+		String msg="";
+		System.out.println("Type the name of the collaborator");
+		collabName=reader.next();
+		msg=controller.searchCollabCapsules(collabName);
+		System.out.println(msg);
+
+	}
+	public void searchCapsulesByString(){
+		System.out.println("Capsulesby string");
+	}
+
 
 	/*||||||||||||||||||||||||||||||||||||||VALIDATION FUNCTIONS||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||**/
 
@@ -368,6 +421,16 @@ public class Main{
 		}
 		GregorianCalendar date=new GregorianCalendar(year,month-1,day);
 		return date;
+	}
+	public String validateStage(String stage){
+		String []possibleStageTypesInStr=controller.possibleStageTypesInStr();
+		String ans="";
+		for (int i=0 ;i<possibleStageTypesInStr.length;i++ ) {
+			if(stage.equalsIgnoreCase(possibleStageTypesInStr[i])){
+				ans=possibleStageTypesInStr[i];
+			}
+		}
+		return ans;
 	}
 	
 

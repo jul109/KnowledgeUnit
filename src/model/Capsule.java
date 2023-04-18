@@ -37,6 +37,15 @@ public class Capsule{
 	public boolean getApproved(){
 		return this.approved;
 	}
+	public String getCollaboratorName(){
+		return this.collaborator.getName();
+	}
+	public CapsuleType getType(){
+		return type;
+	}
+	public boolean isPublished(){
+		return published;
+	}
 
 
 

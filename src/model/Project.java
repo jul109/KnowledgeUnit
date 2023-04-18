@@ -10,7 +10,7 @@ public class Project{
 	private GregorianCalendar finalPlannedDate;
 	private double budget;
 	private int numCapsulesAdded;
-	private int[] numCapsulesPerType;
+	private int[]numCapsulesPerType;
 	private Manager[] managers;
 	private Stage stages[];
 		/**
@@ -35,6 +35,7 @@ public class Project{
 		this.initialPlannedDate=initialDatePlanned;
 		this.finalPlannedDate=finalDatePlanned;
 		this.stages=new Stage[StageType.values().length];
+		numCapsulesPerType=new int[CapsuleType.values().length];
 
 	}
 		/**
@@ -155,12 +156,36 @@ public class Project{
 	public boolean addCapsuleToCurrentStage(Capsule capsule){
 		int pos=positionOfCurrentStage();
 		boolean isAdded=false;
-		if(pos!=-1){
-			if(stages[pos].addCapsule(capsule)){
-				isAdded=true;
+		if(pos!=-1&& stages[pos].addCapsule(capsule)){
+			isAdded=true;
+			numCapsulesAdded++; //When we are adding a new capsule, we sum 1 to the array that tracks the total of capsules added
+			CapsuleType typesOfCapsule[]=CapsuleType.values(); //we also loop through the array of possible types of capsule
+			for(int i=0;i<typesOfCapsule.length;i++){ //
+				if(capsule.getType().equals(typesOfCapsule[i])){
+					numCapsulesPerType[i]++; //And We add one to the position of the array that tracks the number of capsules of the type i
+				}
 			}
 		}
 		return isAdded;
+	}
+	public int[] getNumCapsulesPerType(){
+		return this.numCapsulesPerType;
+	}
+	public String getStageCapsulesInfo(String stageName){
+		String msg="";
+		for(int i=0;i<stages.length;i++){
+			if(stages[i].getStageTypeInStr().equalsIgnoreCase(stageName)){
+				msg=stages[i].getLearningExperiencesOfCapsules();
+			}
+		}
+		if(msg.equals("")){
+			msg="This stage does not exist";
+		}
+		return msg;
+
+	}
+	public int getNumCapsulesAdded(){
+		return this.numCapsulesAdded;
 	}
 
 

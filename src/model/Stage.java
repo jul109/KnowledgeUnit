@@ -6,7 +6,6 @@ public class Stage{
 	private StageType stageType;
 	private boolean active;
 	private boolean approved;
-	private int[] numCapsulesPerType;
 	private int numCapsulesAdded;
 	private GregorianCalendar initialPlannedDate;
 	private GregorianCalendar finalPlannedDate;
@@ -27,7 +26,6 @@ public class Stage{
 		active=false;
 		approved=false;
 		numCapsulesAdded=0;
-		numCapsulesPerType=new int[StageType.values().length];
 		capsules=new Capsule[MAX_CAPSULES];
 	}
 	/**
@@ -52,7 +50,7 @@ public class Stage{
  	* @return the type of this stage
  	*/
 
-	public String getStageType(){
+	public String getStageTypeInStr(){
 		return stageType.name();
 	}
 	/**
@@ -136,8 +134,22 @@ public class Stage{
 		if(pos!=-1){
 			capsules[pos]=capsule;
 			isAdded=true;
+			numCapsulesAdded++;
 		}
 		return isAdded;
+	}
+	public String getLearningExperiencesOfCapsules(){
+		String msg="";
+		for (int i=0 ;i<capsules.length;i++ ) {
+			if(capsules[i]!=null){
+				msg+=capsules[i].getInfo();
+				msg+="\n";
+			}
+		}
+		if(msg.equals("")){
+			msg="There is no any capsule registered in this project stage";
+		}
+		return msg;
 	}
 
 }

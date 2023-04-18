@@ -148,7 +148,7 @@ public class Controller{
 				msg="The stage has been culminated" ;
 
 			}else{
-				msg="All of the stages of this project has been completed";
+				msg="All of the stages of this project have been completed";
 			}
 		}
 		return msg;
@@ -250,7 +250,9 @@ public class Controller{
 				str="The capsule was added";
 				capsules[firstValidPosInCapsules()]=capsule;
 			}else{
-				str="The maximum number of capsules in the stage is "+Stage.MAX_CAPSULES+"the capsule was not added";
+				str="ERROR: THE CAPSULE WAS NOT ADDED\n";
+				str+="Check that the maximum number of capsules ("+Stage.MAX_CAPSULES +") has not been exceeded in the project stage\n";
+				str+="Check that ONE of the stages is active\n";
 			}
 		}
 		return str;
@@ -289,17 +291,87 @@ public class Controller{
 		String msg="";
 		Capsule capsule=searchCapsuleById(id);
 		if(capsule==null){
-			msg="There is no any capsule with this name";
+			msg="There is no any capsule with this id";
 		}
 		if(capsule!=null && !capsule.getApproved()){
 			msg="This capsule has not been approved yet";
 		}
-		if(capsule!=null && capsule.getApproved()){
+		if(capsule!=null && capsule.getApproved()&&!capsule.isPublished()){
 			capsule.setPublished(true);
 			capsule.setUrl(url);
 			msg="Capsuled published";
 		}
+		if(capsule!=null && capsule.getApproved()&&capsule.isPublished()){
+			msg="This capsule was approved previously";
+		}
 		return msg;
+	}
+	public String searchCollabCapsules(String nameCollab){
+		String msg="";
+		for(int i=0;i<capsules.length;i++){
+			if (capsules[i]!=null &&capsules[i].getCollaboratorName().equalsIgnoreCase(nameCollab)) {
+				msg+="This collaborator has registered the next capsule:";
+				msg+=capsules[i].getInfo();
+			}
+		}
+		if(msg.equals("")){
+			msg="This collaborator has not registered a capsule";
+		}
+		return msg;
+	}
+	public String countCapsulesByType(){
+		String msg="";
+		int []numCapsules=new int[CapsuleType.values().length];
+		for(int i=0;i<MAX_PROJECTS;i++){
+			for(int j=0;projects[i]!=null &&j<numCapsules.length;j++){
+				numCapsules[j]+=projects[i].getNumCapsulesPerType()[j];
+			}
+		}
+		for(int i=0;i<numCapsules.length;i++){
+			msg+=possibleCapsuleTypeInStr()[i]+": ";
+			msg+=Integer.toString(numCapsules[i]);
+			msg+="\n";
+			
+		}
+		return msg;
+
+
+	}
+
+	public String getStageCapsulesInfo(String projectName, String stage){
+		stage=stage.toUpperCase();
+		Project project=searchProjectByName(projectName);
+		String msg="";
+		int numCapsules;
+		if (project==null) {
+			msg="There is no project with this name";
+		}
+		if(project!=null){
+			msg+=project.getStageCapsulesInfo(stage);
+			
+		}
+		return msg;
+	}
+
+	public String projectsWithTheGreaterNumberOfCapsules(){
+		String projectsName="";
+		int greaterNumberOfCapsules=0;
+		for (int i=0;i<projects.length ;i++) {
+			if(projects[i]!=null){
+				if (projects[i].getNumCapsulesAdded()>greaterNumberOfCapsules) {
+					projectsName=projects[i].getName();
+					greaterNumberOfCapsules=projects[i].getNumCapsulesAdded();
+				}else{
+					if(projects[i].getNumCapsulesAdded()==greaterNumberOfCapsules){
+						projectsName+=" "+projects[i].getName();
+					}
+				}
+			}
+		}
+		if(greaterNumberOfCapsules==0){
+			projectsName="None capsule has been registered";
+		}
+		return projectsName;
 	}
 
 
