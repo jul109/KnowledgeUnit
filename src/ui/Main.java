@@ -18,19 +18,19 @@ public class Main{
 
 	}
 	/**
-    * Execute a menu with the options
-    * 
+    * Show a menu with the possible options that can be chosen by the user. 
+    * Read an execute the option of the user. If the option is not valid, request it again.
     */
 	public void menu(){
 		int option=-1;
 		boolean execute=true;
 		while(execute){
-			System.out.println("Type 1 to add a project");
-			System.out.println("Type 2 to culminate the current stage of a project");
-			System.out.println("Type 3 to register a capsule");
-			System.out.println("Type 4 to approve a capsule");
-			System.out.println("Type 5 to publish a capsule");
-			System.out.println("Type 6 to exit the program");
+			System.out.println("1 to add a project");
+			System.out.println("2 to culminate the current stage of a project");
+			System.out.println("3 to register a capsule");
+			System.out.println("4 to approve a capsule");
+			System.out.println("5 to publish a capsule");
+			System.out.println("6 to exit the program");
 			option=validateIntegerInput();
 			switch (option) {
 				case 1:
@@ -59,7 +59,8 @@ public class Main{
 
 	
 	/**
-    * Read an validate informations, and prints a message that says if it was possible to add this new project
+    * Read an validate the information of the information of a project
+    * prints a message that says if it was possible to add this new project
     * 
     */
 
@@ -123,7 +124,7 @@ public class Main{
 
 	}
 	/**
-    * Request an array of positive values, and initializes the dates of the project with the name that was given
+    * Request an array of positive values and initialize the dates of the project with the name that was given
     * @param name The name of the project
     */
 	public void manageStages(String name){
@@ -154,7 +155,8 @@ public class Main{
 		System.out.println(msg);
 	}
 	/**
-    * Read names,descriptions, ids, etc and prints a message that says if it was possible to add the capsule
+    * Request the name and the charge of a collaborator and the information about his capsule. 
+    * Prints a message indicating whether the capsule was successfully added or not.
     * 
     */
 
@@ -204,7 +206,7 @@ public class Main{
 
 	}
 	/**
-    * Read the url of the capsule, and prints a message that says if it was possible to approved it.
+    * Request an url of a capsule and prints a message that says if it was possible to approved it.
     * 
     */
 
@@ -220,7 +222,7 @@ public class Main{
 
 	}
 	/**
-    * Read an id and an URL, and prints a message that says if it was possible to publish the capsule
+    * Request strings that contain an a ID and a URL. Prints a message that says if it was possible to publish the capsule or not
     * 
     */
 
@@ -239,7 +241,7 @@ public class Main{
 	/*||||||||||||||||||||||||||||||||||||||VALIDATION FUNCTIONS||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||**/
 
 	/**
-    * Read the input of the user. If the user typed a non integer value, returns -1.
+    * Read the input of the user and return it. If the user typed a non integer value, return -1.
     * 
     * @return The value that was registered by the user, or -1 if the user didn't type an integer.
     */
@@ -307,7 +309,7 @@ public class Main{
 
 
 	/**
-    * Put the user in a loop until he types a non empty string.
+    * Put the user in a loop until he or she types a non empty string.
     * 
     * @return An non empty string
     */
@@ -334,8 +336,8 @@ public class Main{
 
 
 	/**
-	* Put the user in a loop until he types a valid date.
-	* @return Return a valid GregorianCalendar date.
+	* Put the user in a loop until the user types a valid date.
+	* @return Return a valid GregorianCalendar date. A valid day is an integer from [1 to 31]. A valid month is an integer from [1 to 12]. A valid year is an integer greater than 0.
 	*/
 	public GregorianCalendar requestDate(){
 		int day=-1,month=-1,year=-1;

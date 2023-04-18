@@ -13,6 +13,17 @@ public class Project{
 	private int[] numCapsulesPerType;
 	private Manager[] managers;
 	private Stage stages[];
+		/**
+	 * Constructs a new Project with the given parameters.
+	 *
+	 * @param name the name of the project
+	 * @param clientName the name of the client
+	 * @param budget the budget for the project
+	 * @param nameManagers an array of the project's magers.
+	 * @param phoneManagers an array of phone numbers of the managers of the project
+	 * @param initialDatePlanned the planned initial date for the project
+	 * @param finalDatePlanned the planned final date for the project
+	 */
 	public Project( String name, String clientName, double budget, String[] nameManagers, String[] phoneManagers, GregorianCalendar initialDatePlanned, GregorianCalendar finalDatePlanned){
 		this.name=name;
 		this.clientName=clientName;
@@ -26,6 +37,11 @@ public class Project{
 		this.stages=new Stage[StageType.values().length];
 
 	}
+		/**
+	 * Initializes the stages of the project with the given number of months for each stage.
+	 *
+	 * @param months an array of integers representing the number of months for each stage
+	 */
 	public void initStages(int[] months ){
 		GregorianCalendar initialPlannedDateOfTheFirstStage=initialPlannedDate; //The initial planned date  of the first stage
 		//is the same as the initial planned date of the project.
@@ -47,39 +63,50 @@ public class Project{
 			stages[i]=new Stage(StageType.values()[i],stages[i-1].getFinalPlannedDate(),createCopyAndAddMonths(stages[i-1].getFinalPlannedDate(),months[i]));
 		}
 	}
-
-
+	/**  Returns the name of the project
+	*@return An string that represents the name of the project
+	*/
 	public String getName(){
 		return name;
 	}
+	/**  Returns information about the project.
+	*@return An string that that contains the project name, the cliente name, the initial date, the final date and the budget.
+	*/
 	public String getProjectInfo(){
-		return "\nName: " + name + "\nClient: " + clientName + "\nInitial Date: " + getInitialPlannedDateFormated() + 
-		"\nFinal Date: " + getFinalPlannedDateFormated() + "\nTotalBudget: " + budget;
+		return "\nName: " + name + "\nClient: " + clientName + "\nInitial Date: " + Controller.calendarToString(initialPlannedDate) + 
+		"\nFinal Date: " + Controller.calendarToString(finalPlannedDate) + "\nTotalBudget: " + budget;
 	}
-
-	
+	/**  Returns the initial date of the project.
+	*@return A gregorian calendar that represents the initial date of the project. 
+	*/
 
 	public GregorianCalendar getInitialDate(){
 		return initialPlannedDate;
 	}
 	
-	public String getInitialPlannedDateFormated() {
-		return Controller.calendarToString(initialPlannedDate);
-
-	}
-
+	/**  Returns the final date of the project.
+	*@return A gregorian calendar that represents the final date of the project. 
+	*/
 	public GregorianCalendar getFinalPlannedDate(){
 		return finalPlannedDate;
 	}
-
-	public String getFinalPlannedDateFormated(){
-		return Controller.calendarToString(finalPlannedDate);
-	}
-	public GregorianCalendar createCopyAndAddMonths(GregorianCalendar date,int months){
-		GregorianCalendar copy= (GregorianCalendar) date.clone(); //we create a clone of date that was taken as parameter
+		/**
+	 * Creates a copy of the given GregorianCalendar object and adds the specified number of months to it.
+	 *
+	 * @param date the GregorianCalendar object to copy
+	 * @param months the number of months to add to the copy
+	 * @return a new GregorianCalendar object that is a copy of the given date with the specified number of months added
+	 */
+	private GregorianCalendar createCopyAndAddMonths(GregorianCalendar date,int months){
+		GregorianCalendar copy= (GregorianCalendar) date.clone(); //we create a clone of the calendar that was taken as parameter
 		copy.add(copy.MONTH,months); //we add the months
 		return copy; //and we return a reference to this new object
 	}
+	/**
+	* Returns the position of the current active stage in the stages array of the project.
+	*
+	* @return An integer that represents the position of the current active stage, or -1 if no active stage is found
+	*/
 	public int positionOfCurrentStage(){
 		int pos=-1;
 		boolean isFound=false;
@@ -92,8 +119,11 @@ public class Project{
 		return pos;
 
 	}
-
-
+	/**
+	* Culminates the current active stage of the project.
+	*
+	* @return true if the current stage was successfully culminated, otherwise returns false.
+	*/
 
 	public boolean culminateCurrentStage(){
 		int pos=positionOfCurrentStage();
@@ -116,6 +146,12 @@ public class Project{
 		}
 		return culminated;
 	}
+	/**
+    * Adds a capsule to the current active stage of the project.
+ 	*
+ 	* @param capsule the capsule to be added
+ 	* @return returns a boolean. True if the capsule was successfully added, false otherwise
+ 	*/
 	public boolean addCapsuleToCurrentStage(Capsule capsule){
 		int pos=positionOfCurrentStage();
 		boolean isAdded=false;
