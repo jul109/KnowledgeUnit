@@ -68,7 +68,7 @@ public class Main{
 					showCapsulesOfACollabByHisName();
 					break;
 				case 10:
-					searchCapsulesByString();
+					searchCapsulesByKeyWords();
 					break;
 				case 11:
 					execute=false;
@@ -206,8 +206,7 @@ public class Main{
 		}while( !controller.validateCapsuleType(capsuleType) );
 		reader.nextLine();
 		System.out.println("Type description of the capsule");
-		description=validateStringInput();
-		reader.nextLine();
+		description=reader.nextLine();
 
 		System.out.println("Type the learningExperience");
 		learningExperience=reader.nextLine();
@@ -286,8 +285,22 @@ public class Main{
 		System.out.println(msg);
 
 	}
-	public void searchCapsulesByString(){
-		System.out.println("Capsulesby string");
+	public void searchCapsulesByKeyWords(){
+		int numKeywords;
+		String msg="";
+		System.out.println("Type the number of key words to search for between the capsules");
+		numKeywords=validatePositiveInt();
+		reader.nextLine();
+		String keyWords[]=new String[numKeywords];
+		
+		for (int i=0;i<numKeywords ;i++ ) {
+			System.out.println("Type the keyword number: "+ (i+1));
+			keyWords[i]=reader.nextLine();
+		}
+		msg=controller.searchCapsulesByKeyWords(keyWords);
+		System.out.println(msg);
+
+
 	}
 
 
@@ -432,6 +445,7 @@ public class Main{
 		}
 		return ans;
 	}
+
 	
 
 

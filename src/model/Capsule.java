@@ -10,13 +10,17 @@ public class Capsule{
 	private boolean published;
 	private String url;
 	private CapsuleType type; 
-	private String[] keyWords;
+	private String[] keyWordsLearningExperiences;
+	private String[] keyWordsDescription;
+	private GregorianCalendar approvalDate;
 	public Capsule(Collaborator collaborator, String description, String learningExperiences, String id, CapsuleType type){
 	    this.collaborator = collaborator;
 	    this.description = description;
 	    this.learningExperiences = learningExperiences;
 	    this.id = id;
 	    this.type = type;
+	    this.keyWordsDescription=description.split("#");
+	    this.keyWordsLearningExperiences=learningExperiences.split("#");
 	}
 	public String getId(){
 		return id;
@@ -30,6 +34,9 @@ public class Capsule{
 	}
 	public void setApproved(boolean approved){
 		this.approved=approved;
+	}
+	public void setApprovalDate(GregorianCalendar approvalDate){
+		this.approvalDate=approvalDate;
 	}
 	public void setUrl(String url){
 		this.url=url;
@@ -46,6 +53,25 @@ public class Capsule{
 	public boolean isPublished(){
 		return published;
 	}
+	public boolean contains(String keyWordsToSearch[]){
+		boolean contains=false;
+		for(int j=0;j<keyWordsToSearch.length;j++){
+			String keyWordToSearch=keyWordsToSearch[j];
+			
+			for (int i=0;i<this.keyWordsDescription.length&&!contains;i++ ) {
+				if(this.keyWordsDescription[i].equalsIgnoreCase(keyWordToSearch)){
+					contains=true;
+				}
+			}
+			for (int i=0;i<this.keyWordsLearningExperiences.length&&!contains ;i++ ) {
+				if(this.keyWordsLearningExperiences[i].equalsIgnoreCase(keyWordToSearch)){
+					contains=true;
+				}
+			}
+		}
+		return contains;
+	}
+
 
 
 

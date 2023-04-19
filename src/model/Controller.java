@@ -275,7 +275,9 @@ public class Controller{
 				msg="This capsule was approved before";
 			}else{
 				msg="The capsule was approved succesfully";
+				GregorianCalendar approvalDate=new GregorianCalendar();
 				capsule.setApproved(true);
+				capsule.setApprovalDate(approvalDate);
 			}
 		}
 		return msg;
@@ -293,16 +295,18 @@ public class Controller{
 		if(capsule==null){
 			msg="There is no any capsule with this id";
 		}
-		if(capsule!=null && !capsule.getApproved()){
-			msg="This capsule has not been approved yet";
-		}
-		if(capsule!=null && capsule.getApproved()&&!capsule.isPublished()){
-			capsule.setPublished(true);
-			capsule.setUrl(url);
-			msg="Capsuled published";
-		}
-		if(capsule!=null && capsule.getApproved()&&capsule.isPublished()){
-			msg="This capsule was approved previously";
+		if(capsule!=null){
+			if(!capsule.getApproved()){
+				msg="This capsule has not been approved yet";
+			}else{
+				if(!capsule.isPublished()){
+					capsule.setPublished(true);
+					capsule.setUrl(url);
+					msg="Capsuled published";
+				}else{
+					msg="This capsule was published previously";
+				}
+			}
 		}
 		return msg;
 	}
@@ -372,6 +376,19 @@ public class Controller{
 			projectsName="None capsule has been registered";
 		}
 		return projectsName;
+	}
+	public String searchCapsulesByKeyWords(String[] keyWords){
+		String capsulesInfo="";
+		for(int i=0;i<capsules.length;i++){	
+			if(capsules[i]!=null&&capsules[i].isPublished()&&capsules[i].contains(keyWords)){
+				capsulesInfo+=capsules[i].getInfo();
+				capsulesInfo+="\n";
+			}
+		}
+		if(capsulesInfo.equals("")){
+			capsulesInfo="There is no any published and approved capsule with these key words";
+		}
+		return capsulesInfo;
 	}
 
 
