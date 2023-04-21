@@ -62,7 +62,7 @@ public class Main{
 					viewLearningExperiencesInAProjectStage();
 					break;
 				case 8:
-					ShowProjectsWithTheGreaterNumOfCapsules();
+					showProjectsWithTheGreaterNumOfCapsules();
 					break;
 				case 9:
 					showCapsulesOfACollabByHisName();
@@ -99,7 +99,7 @@ public class Main{
 		
 		do{
 			System.out.println("Type the name of the project");
-			name=validateStringInput();
+			name=reader.next();
 			isValid=controller.validateProjectName(name);			
 			
 			if( isValid ){
@@ -112,7 +112,7 @@ public class Main{
 		}while(!isValid);
 		
 		System.out.println("Type the name of the client");
-		clientName=validateStringInput();		
+		clientName=reader.next();		
 		
 		
 		System.out.println("Type the budget");
@@ -120,9 +120,9 @@ public class Main{
 
 		for(int i=0;i<nameManagers.length;i++){
 			System.out.println("Type the name of the manager");
-			nameManagers[i]=validateStringInput();
+			nameManagers[i]=reader.next();
 			System.out.println("Type the phone of the manager");
-			phoneManagers[i]=validateStringInput();
+			phoneManagers[i]=reader.next();
 		}
 		
 		System.out.println("Register the inital date planned");
@@ -171,7 +171,7 @@ public class Main{
 		String projectName, msg="";
 		
 		System.out.println("Type the name of the project");
-		projectName=validateStringInput();
+		projectName=reader.next();
 		
 		msg=controller.culminateCurrentStage(projectName);
 		System.out.println(msg);
@@ -188,9 +188,9 @@ public class Main{
 		String[] possibleTypes=controller.possibleCapsuleTypeInStr();
 		
 		System.out.println("Type the name of the collaborator");
-		collabName=validateStringInput();
+		collabName=reader.next();
 		System.out.println("Type the charge of the collaborator");
-		collabCharge=validateStringInput();
+		collabCharge=reader.next();
 		
 		do{
 			System.out.println("Type the type of the capsule.These are the types");
@@ -198,7 +198,7 @@ public class Main{
 				System.out.print(possibleTypes[i]+" ");
 			}
 			System.out.println();
-			capsuleType=validateStringInput();
+			capsuleType=reader.next();
 			if(!controller.validateCapsuleType(capsuleType)){
 				System.out.println("Invalid value");
 			}
@@ -213,7 +213,7 @@ public class Main{
 
 		System.out.println("Type the id");
 		do{
-			id=validateStringInput();
+			id=reader.next();
 			if(!controller.validateIdCapsule(id)){
 				System.out.println("This id was chosen before. Type other");
 			}
@@ -236,7 +236,7 @@ public class Main{
 		String id="";
 		String msg="";
 		System.out.println("Type the id of the capsule");
-		id=validateStringInput();
+		id=reader.next();
 		
 		msg=controller.approveCapsule(id);
 		System.out.println(msg);
@@ -251,17 +251,26 @@ public class Main{
 		String id="",url="";
 		String msg="";
 		System.out.println("Type the id of the capsule");
-		id=validateStringInput();
+		id=reader.next();
 		System.out.println("Type the url");
-		url=validateStringInput();
+		url=reader.next();
 		msg=controller.publishCapsule(id,url);
 		System.out.println(msg);
 	}
+	/**
+	* This method counts the number of capsules by type and prints the result.
+	* The counting is performed by the controller object.
+	*/
 
 	public void countCapsulesByType(){
 		String msg=controller.countCapsulesByType();
 		System.out.println(msg);
 	}
+	/**
+	* This method allows the user to view the learning experiences in a specific project stage.
+	* The user is prompted to enter the name of the project and the stage.
+	* The information is retrieved from the controller object and printed to the console.
+	*/
 	public void viewLearningExperiencesInAProjectStage(){
 		String projectName,stageName,msg="";
 		System.out.println("Type the name of the project");
@@ -272,7 +281,11 @@ public class Main{
 		System.out.println(msg);
 
 	}
-	public void ShowProjectsWithTheGreaterNumOfCapsules(){
+	/**
+    * This method displays the projects with the greatest number of capsules.
+    * The information is retrieved from the controller object and printed to the console.
+    */
+	public void showProjectsWithTheGreaterNumOfCapsules(){
 		String msg=controller.projectsWithTheGreaterNumberOfCapsules();
 		System.out.println(msg);
 	}
@@ -285,6 +298,11 @@ public class Main{
 		System.out.println(msg);
 
 	}
+	/**
+    * This method displays ONE capsule of a collaborator by their name.
+    * The user is prompted to enter the name of the collaborator.
+    * The information is retrieved from the controller object and printed to the console.
+    */
 	public void searchCapsulesByKeyWords(){
 		int numKeywords;
 		String msg="";
@@ -374,29 +392,6 @@ public class Main{
 	
 
 
-	/**
-    * Put the user in a loop until he or she types a non empty string.
-    * 
-    * @return An non empty string
-    */
-
-	public String validateStringInput(){
-		boolean isValid=false;
-		String str="";
-		while(!isValid){
-			
-			if(reader.hasNext()){
-				str=reader.next();
-				isValid=true;
-			}else{
-				System.out.println("It is not valid to choose an empty String");
-				reader.nextLine();
-			}
-			
-		}
-		return str;
-
-	}
 
 
 
@@ -435,17 +430,6 @@ public class Main{
 		GregorianCalendar date=new GregorianCalendar(year,month-1,day);
 		return date;
 	}
-	public String validateStage(String stage){
-		String []possibleStageTypesInStr=controller.possibleStageTypesInStr();
-		String ans="";
-		for (int i=0 ;i<possibleStageTypesInStr.length;i++ ) {
-			if(stage.equalsIgnoreCase(possibleStageTypesInStr[i])){
-				ans=possibleStageTypesInStr[i];
-			}
-		}
-		return ans;
-	}
-
 	
 
 

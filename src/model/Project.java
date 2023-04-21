@@ -171,6 +171,13 @@ public class Project{
 	public int[] getNumCapsulesPerType(){
 		return this.numCapsulesPerType;
 	}
+	/**
+	* This method retrieves information about the learning experiences of capsules in a given stage.
+	*
+	* @param stageName the name of the stage to retrieve information for
+	* @return information about the learning experiences of capsules in the given stage,
+	* or a message indicating that the stage does not exist
+	*/
 	public String getStageCapsulesInfo(String stageName){
 		String msg="";
 		for(int i=0;i<stages.length;i++){
@@ -184,6 +191,11 @@ public class Project{
 		return msg;
 
 	}
+	/**
+	* This method returns the number of capsules of each type.
+	*
+	* @return an array containing the number of capsules of each type
+	*/
 	public int getNumCapsulesAdded(){
 		return this.numCapsulesAdded;
 	}

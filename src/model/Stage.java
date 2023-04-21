@@ -138,6 +138,12 @@ public class Stage{
 		}
 		return isAdded;
 	}
+	/**
+	* This method retrieves information about the learning experiences of capsules in this project stage.
+ 	*
+ 	* @return information about the learning experiences of capsules in this project stage,
+ 	*         or a message indicating that no capsules were registered in this project stage
+ 	*/
 	public String getLearningExperiencesOfCapsules(){
 		String msg="";
 		for (int i=0 ;i<capsules.length;i++ ) {

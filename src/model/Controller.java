@@ -3,7 +3,7 @@ import java.util.GregorianCalendar;
 import java.text.SimpleDateFormat;
 
 public class Controller{
-	public static final int MAX_PROJECTS=2;
+	public static final int MAX_PROJECTS=10;
 	public static final int MAX_TOTAL_CAPSULES=3000;
 	private Project projects [];
 	private Capsule capsules [];
@@ -310,6 +310,13 @@ public class Controller{
 		}
 		return msg;
 	}
+	/**
+	* This method searches for ONE capsule registered by a collaborator. A name must be given.
+	*
+	* @param nameCollab the name of the collaborator to search for
+	* @return a message containing information about one capsule registered by the collaborator,
+	*         or a message indicating that the collaborator has not registered any capsules
+	*/
 	public String searchCollabCapsules(String nameCollab){
 		String msg="";
 		for(int i=0;i<capsules.length;i++){
@@ -341,6 +348,11 @@ public class Controller{
 
 
 	}
+	/**
+	* This method counts the number of capsules of each type in all projects.
+	*
+	* @return a message containing the number of capsules of each type
+	*/
 
 	public String getStageCapsulesInfo(String projectName, String stage){
 		stage=stage.toUpperCase();
@@ -356,6 +368,11 @@ public class Controller{
 		}
 		return msg;
 	}
+	/**
+    * This method finds the project(s) with the greatest number of capsules.
+    *
+    * @return An string that contains name(s) of the project(s) with the greatest number of capsules
+    */
 
 	public String projectsWithTheGreaterNumberOfCapsules(){
 		String projectsName="";
@@ -377,6 +394,13 @@ public class Controller{
 		}
 		return projectsName;
 	}
+	/**
+ 	* This method searches for published and approved capsules that contain the given keywords.
+ 	*
+ 	* @param keyWords an array of keywords to search for
+ 	* @return information about the capsules that contain the given keywords,
+ 	* or a message indicating that no capsules were found
+ 	*/
 	public String searchCapsulesByKeyWords(String[] keyWords){
 		String capsulesInfo="";
 		for(int i=0;i<capsules.length;i++){	
