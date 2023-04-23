@@ -4,17 +4,18 @@ import java.util.GregorianCalendar;
 import model.Controller;
 
 public class Main{
-	public static Scanner reader=new Scanner(System.in);
 	private Controller controller;
+	private Scanner reader;
 	Main(){
 		controller=new Controller();
+		reader=new Scanner(System.in);
 	}
 	
 
 	public static void main(String args[]){
 		Main exe=new Main();
 		exe.menu();
-		
+			
 
 	}
 	/**
@@ -32,8 +33,8 @@ public class Main{
 			System.out.println("4 to approve a capsule");
 			System.out.println("5 to publish a capsule");
 			System.out.println("6 to count the number of capsules for any type.");
-			System.out.println("7 to view the learning experiences of the capsules in a project stage");
-			System.out.println("8 to know which are the projects that contain the greater number of capsules registered");
+			System.out.println("7 to show the learning experiences of the capsules in a project stage");
+			System.out.println("8 to show the names of the projects that contain the greater number of capsules registered");
 			System.out.println("9 to verify by his name if a collaborator has registered a capsule");
 			System.out.println("10 to search for the capsules that have been published and approved. It is necessary to type some key words ");
 			System.out.println("11 to exit the program");
@@ -119,6 +120,11 @@ public class Main{
 		budget=validatePositiveDouble();
 
 		for(int i=0;i<nameManagers.length;i++){
+			if(i%2==0){
+				System.out.println("Register the information of the manager of Green SQA");
+			}else{
+				System.out.println("Register the information of the manager of the client");
+			}
 			System.out.println("Type the name of the manager");
 			nameManagers[i]=reader.next();
 			System.out.println("Type the phone of the manager");
@@ -243,7 +249,7 @@ public class Main{
 
 	}
 	/**
-    * Request strings that contain an a ID and a URL. Prints a message that says if it was possible to publish the capsule or not
+    * Request Id adn URL. Prints a message that says if it was possible to publish the capsule with the given url and id.
     * 
     */
 
@@ -289,6 +295,13 @@ public class Main{
 		String msg=controller.projectsWithTheGreaterNumberOfCapsules();
 		System.out.println(msg);
 	}
+	
+	/**
+    * This method displays ONE capsule of a collaborator by their name.
+    * The user is prompted to enter the name of the collaborator.
+    * The information is retrieved from the controller object and printed to the console.
+    */
+
 	public void showCapsulesOfACollabByHisName(){
 		String collabName="";
 		String msg="";
@@ -299,10 +312,10 @@ public class Main{
 
 	}
 	/**
-    * This method displays ONE capsule of a collaborator by their name.
-    * The user is prompted to enter the name of the collaborator.
-    * The information is retrieved from the controller object and printed to the console.
-    */
+ 	* Searches for capsules that contain the specified keywords.
+ 	* The user is prompted to enter the number of keywords to search for,
+ 	* and then to enter each keyword. The search results are then displayed.
+ 	*/
 	public void searchCapsulesByKeyWords(){
 		int numKeywords;
 		String msg="";
@@ -325,7 +338,7 @@ public class Main{
 	/*||||||||||||||||||||||||||||||||||||||VALIDATION FUNCTIONS||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||**/
 
 	/**
-    * Read the input of the user and return it. If the user typed a non integer value, return -1.
+    * Reads the input of the user. If the user typed a non integer value, returns -1. Otherwise, returns the input.
     * 
     * @return The value that was registered by the user, or -1 if the user didn't type an integer.
     */
@@ -341,7 +354,7 @@ public class Main{
 		return num;
 	}
 	/**
-    * Put the user in a loop until he types a positive integer
+    * Puts the user in a loop until he types a positive integer
     * 
     * @return An positive double
     */
@@ -357,7 +370,7 @@ public class Main{
 	}
 	
 	/**
-    * Read the input of the user. If the user typed a non double value, returns -1.
+    * Reads the input of the user. If the user typed a non double value, returns -1.
     * 
     * @return The value that was registered by the user, or -1 if the user didn't type a double.
     */
@@ -374,9 +387,9 @@ public class Main{
 	}
 
 	/**
-    * Put the user in a loop until he types a positive double
+    * Puts the user in a loop until he types a positive double
     * 
-    * @return An positive double
+    * @return A positive double
     */
 	public double validatePositiveDouble(){
 		double value=-1.0;
@@ -397,7 +410,7 @@ public class Main{
 
 
 	/**
-	* Put the user in a loop until the user types a valid date.
+	* Puts the user in a loop until he types a valid date.
 	* @return Return a valid GregorianCalendar date. A valid day is an integer from [1 to 31]. A valid month is an integer from [1 to 12]. A valid year is an integer greater than 0.
 	*/
 	public GregorianCalendar requestDate(){

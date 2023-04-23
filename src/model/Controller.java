@@ -9,7 +9,7 @@ public class Controller{
 	private Capsule capsules [];
 	/**
 	 * Take a an object of the class GregorianCalendar and return an string that represents it
- 	* @param  gregoriancalendar instance of the class GregorianCalendar
+ 	* @param  calendar instance of the class GregorianCalendar
 	* @return An string of the calendar
  	*/
 
@@ -129,7 +129,13 @@ public class Controller{
  	*/
 
 	public String[] possibleStageTypesInStr(){
-		return StageType.optionsInStr();
+		StageType options[]=StageType.values();
+		String[] optionsInString=new String[options.length];
+		
+		for(int i=0;i<options.length;i++){
+			optionsInString[i]=options[i].name();
+		}
+		return optionsInString;
 	}
 	/**
 	 *Take the name of a project and culminate its current stage
@@ -175,7 +181,7 @@ public class Controller{
 	/**
 	* Validate if it is possible to choose the string, that was given as parameter, as an ID of a project
 	* @param id The id of the capsule
-	* @return 
+	* @return A boolean that indicates if the id is valid or not 
  	*/
 	public boolean validateIdCapsule(String id){
 		boolean isValid=true;
@@ -191,7 +197,13 @@ public class Controller{
 	*
 	*/
 	public String[] possibleCapsuleTypeInStr(){
-		return CapsuleType.optionsInStr();
+		CapsuleType options[]=CapsuleType.values();
+		String[] optionsInString=new String[options.length];
+		
+		for(int i=0;i<options.length;i++){
+			optionsInString[i]=options[i].name();
+		}
+		return optionsInString;
 	}
 	/**
 	 * Checks if a given capsule type is valid.
@@ -202,9 +214,13 @@ public class Controller{
 	*/
 
 	public boolean validateCapsuleType(String capsuleType){
+		CapsuleType options[]=CapsuleType.values();
 		boolean isValid=false;
-		if(CapsuleType.contains(capsuleType)){
-			isValid=true;
+		for(int i=0;i<options.length&&!isValid;i++){
+			CapsuleType aux=options[i];
+			if(aux.name().equalsIgnoreCase(capsuleType)){
+				isValid=true;
+			}
 		}
 		return isValid;
 	}
@@ -262,7 +278,7 @@ public class Controller{
 	 * Approves a capsule with the given ID.
 	 * 
 	 * @param id the ID of the capsule to approve
-	 * @return a message in string indicating the success of the approval
+	 * @return a message in string indicating if it was possible to approved the capsule, and why.
 	*/
 
 	public String approveCapsule(String id){
@@ -302,7 +318,7 @@ public class Controller{
 				if(!capsule.isPublished()){
 					capsule.setPublished(true);
 					capsule.setUrl(url);
-					msg="Capsuled published";
+					msg="The capsule was published succesfully";
 				}else{
 					msg="This capsule was published previously";
 				}
@@ -330,6 +346,11 @@ public class Controller{
 		}
 		return msg;
 	}
+	/**
+	* This method counts the number of capsules of each type in all projects.
+	*
+	* @return a message containing the number of capsules of each type
+	*/
 	public String countCapsulesByType(){
 		String msg="";
 		int []numCapsules=new int[CapsuleType.values().length];
@@ -349,10 +370,11 @@ public class Controller{
 
 	}
 	/**
-	* This method counts the number of capsules of each type in all projects.
-	*
-	* @return a message containing the number of capsules of each type
-	*/
+ 	*Returns information about the capsules in the specified stage of the specified project.
+ 	*@param projectName the name of the project
+ 	*@param stage the name of the stage
+ 	*@return a string containing information about the capsules in the specified stage of the specified project
+ 	*/
 
 	public String getStageCapsulesInfo(String projectName, String stage){
 		stage=stage.toUpperCase();
